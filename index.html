@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>NFT Art Collectors Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6B6B;
+            --accent: #4ECCA3;
+            --dark: #1A1A2E;
+            --light: #FFFFFF;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--light);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+
+        /* Hero Section */
+        .hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    background-image: url('images/NFT.jpeg');  /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    color: var(--light);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;  /* Increased z-index to appear above the overlay */
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent), var(--light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);
+        }
+
+        /* Featured NFTs */
+        .featured-nfts {
+            padding: 4rem 2rem;
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nft-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        /* Artists Section */
+        .artists {
+            padding: 4rem 2rem;
+            background: linear-gradient(to right, var(--dark), #2A2A4E);
+        }
+
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .artist-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass);
+            border-radius: 20px;
+        }
+
+        .artist-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover;
+        }
+
+        /* Guide Section */
+        .guide {
+            padding: 4rem 2rem;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .guide-card {
+            background: var(--glass);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hamburger {
+                display: block;
+                z-index: 1001;
+            }
+
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 60%;
+                height: calc(100vh - 70px);
+                background: rgba(26, 26, 46, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+                transition: right 0.3s ease;
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                margin: 1rem 0;
+    }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -8px);
+            }
+        }
+
+        @media (min-width: 768px) {
+    .hero {
+        background-attachment: fixed;
+    }
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">NFT Hub</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#explore">Explore</a>
+            <a href="#artists">Artists</a>
+            <a href="#guide">Guide</a>
+            <a href="#create">Create</a>
+        </div>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Where Art Meets Blockchain</h1>
+            <p>Discover, Collect, and Showcase NFTs</p>
+            <a href="#explore" class="cta-button">Explore Collections</a>
+        </div>
+    </section>
+
+    <section id="explore" class="featured-nfts">
+        <h2>Featured NFTs</h2>
+        <div class="nft-grid">
+            <div class="nft-card">
+                <img src="images/Admiring the Cosmic Frontier.jpeg" alt="Cosmic Dreams #001" class="nft-image">
+                <h3>Cosmic Dreams #001</h3>
+                <p>By Andile Mawaza</p>
+                <p>Current Bid: 2.5 ETH</p>
+            </div>
+            <div class="nft-card">
+                <img src="images/Silhouette in Neon City.jpeg" alt="Neon Wilderness" class="nft-image">
+                <h3>Neon Wilderness</h3>
+                <p>By Vera Chi</p>
+                <p>Current Bid: 1.8 ETH</p>
+            </div>
+            <div class="nft-card">
+                <img src="images/Abstract Interconnected Shapes.jpeg" alt="Abstract Reality" class="nft-image">
+                <h3>Abstract Reality</h3>
+                <p>By Eze Tendulkar</p>
+                <p>Current Bid: 3.2 ETH</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="artists" class="artists">
+        <h2>Featured Artists</h2>
+        <div class="artist-grid">
+            <div class="artist-card">
+                <img src="images/Portrait of Young African Male with Gold-Painted Lips.jpeg" alt="Digital Maestro" class="artist-avatar">
+                <h3>Andile Mawaza</h3>
+                <p>Digital Art Pioneer</p>
+            </div>
+            <div class="artist-card">
+                <img src="images/Serene Muse before Vivid Abstraction.jpeg" alt="Future Artist" class="artist-avatar">
+                <h3>Vera Chi</h3>
+                <p>Neon Art Specialist</p>
+            </div>
+            <div class="artist-card">
+                <img src="images/Portrait of a South Asian Man.jpeg" alt="Color Master" class="artist-avatar">
+                <h3>Eze Tendulkar</h3>
+                <p>Abstract Art Creator</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="guide" class="guide">
+        <h2>NFT Guide</h2>
+        <div class="guide-grid">
+            <div class="guide-card">
+                <h3>What are NFTs?</h3>
+                <p>Learn about unique digital assets and blockchain technology.</p>
+            </div>
+            <div class="guide-card">
+                <h3>How to Buy</h3>
+                <p>Step-by-step guide to purchasing your first NFT.</p>
+            </div>
+            <div class="guide-card">
+                <h3>Create & Sell</h3>
+                <p>Start your journey as an NFT artist.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h3>NFT Hub</h3>
+                <p>The future of digital art collecting</p>
+            </div>
+            
+            <div>
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // GSAP animations for hero section
+        gsap.from('.hero-content', {
+            duration: 1,
+            y: 100,
+            opacity: 0,
+            ease: 'power3.out'
+        });
+
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+    </script>
+</body>
+</html>
